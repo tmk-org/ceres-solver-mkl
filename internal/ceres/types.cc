@@ -109,6 +109,7 @@ const char* SparseLinearAlgebraLibraryTypeToString(
     CASESTR(EIGEN_SPARSE);
     CASESTR(ACCELERATE_SPARSE);
     CASESTR(CUDA_SPARSE);
+    CASESTR(MKL_QR_SPARSE);
     CASESTR(NO_SPARSE);
     default:
       return "UNKNOWN";
@@ -122,6 +123,7 @@ bool StringToSparseLinearAlgebraLibraryType(
   STRENUM(EIGEN_SPARSE);
   STRENUM(ACCELERATE_SPARSE);
   STRENUM(CUDA_SPARSE);
+  STRENUM(MKL_QR_SPARSE);
   STRENUM(NO_SPARSE);
   return false;
 }
@@ -427,6 +429,14 @@ bool IsSparseLinearAlgebraLibraryTypeAvailable(
     return false;
 #else
     return true;
+#endif
+  }
+
+  if(type == MKL_QR_SPARSE) {
+#ifdef CERES_WITH_MKL
+    return true;
+#else
+    return false;
 #endif
   }
 

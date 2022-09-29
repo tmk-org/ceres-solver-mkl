@@ -178,6 +178,9 @@ enum SparseLinearAlgebraLibraryType {
   // Nvidia's cuSPARSE library.
   CUDA_SPARSE,
 
+  // MKL QR
+  MKL_QR_SPARSE,
+
   // No sparse linear solver should be used.  This does not necessarily
   // imply that Ceres was built without any sparse library, although that
   // is the likely use case, merely that one should not be used.
