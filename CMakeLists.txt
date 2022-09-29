@@ -149,6 +149,7 @@ endif()
 # language definition.
 option(USE_CUDA "Enable use of CUDA linear algebra solvers." ON)
 option(LAPACK "Enable use of LAPACK directly within Ceres." ON)
+option(USE_MKL "Enable use of MKL features if LAPACK vendor is Intel." ON)
 # Template specializations for the Schur complement based solvers. If
 # compile time, binary size or compiler performance is an issue, you
 # may consider disabling this.
@@ -256,6 +257,15 @@ if (LAPACK)
   find_package(LAPACK QUIET)
   if (LAPACK_FOUND)
     message("-- Found LAPACK library: ${LAPACK_LIBRARIES}")
+    if(USE_MKL)
+      string(FIND "${BLA_VENDOR}" "Intel" MKL_FOUND)
+      if(MKL_FOUND EQUAL 0)
+        message("-- Intel recognised as LAPACK vendor. Using MKL extensions: ${LAPACK_LIBRARIES}")
+        list(APPEND CERES_COMPILE_OPTIONS CERES_WITH_MKL)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEIGEN_USE_MKL_ALL")
+      endif(MKL_FOUND EQUAL 0)
+    endif(USE_MKL)
+
   else (LAPACK_FOUND)
     message("-- Did not find LAPACK library, disabling LAPACK support.")
     update_cache_variable(LAPACK OFF)

@@ -41,6 +41,7 @@
 #endif  // CERES_NO_CUDA
 
 #ifndef CERES_NO_LAPACK
+#ifndef CERES_WITH_MKL
 
 // LAPACK routines for solving a linear least squares problem using QR
 // factorization. This is done in three stages:
@@ -107,6 +108,7 @@ extern "C" void dtrtrs_(const char* uplo, const char* trans, const char* diag,
                         double* b, const int* ldb, int* info);
 // clang-format on
 
+#endif
 #endif
 
 namespace ceres::internal {

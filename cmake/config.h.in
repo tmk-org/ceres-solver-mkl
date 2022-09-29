@@ -47,6 +47,9 @@
 // If defined, Ceres was compiled without LAPACK.
 @CERES_NO_LAPACK@
 
+// If defined, Ceres was compiled with MKL support.
+@CERES_WITH_MKL@
+
 // If defined, Ceres was compiled without SuiteSparse.
 @CERES_NO_SUITESPARSE@
 
