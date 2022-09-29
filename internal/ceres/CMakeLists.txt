@@ -270,6 +270,8 @@ add_library(ceres_internal OBJECT
     visibility.cc
     visibility_based_preconditioner.cc
     wall_time.cc
+    mkl_sparse.cc
+    mkl_wrapper.cc
 )
 
 set(CERES_LIBRARY_SOURCE

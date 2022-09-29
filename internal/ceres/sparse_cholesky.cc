@@ -38,6 +38,7 @@
 #include "ceres/float_suitesparse.h"
 #include "ceres/iterative_refiner.h"
 #include "ceres/suitesparse.h"
+#include "ceres/mkl_sparse.h"
 
 namespace ceres::internal {
 
@@ -87,7 +88,14 @@ std::unique_ptr<SparseCholesky> SparseCholesky::Create(
       LOG(FATAL) << "Ceres was compiled without support for Apple's Accelerate "
                  << "framework solvers.";
 #endif
-
+    case MKL_QR_SPARSE:
+      if (options.use_mixed_precision_solves) {
+        sparse_cholesky =
+            FloatMklSparseCholesky::Create(options.ordering_type);
+      } else {
+        sparse_cholesky = MklSparseCholesky::Create(options.ordering_type);
+      }
+      break;
     default:
       LOG(FATAL) << "Unknown sparse linear algebra library type : "
                  << SparseLinearAlgebraLibraryTypeToString(

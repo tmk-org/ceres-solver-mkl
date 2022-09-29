@@ -552,13 +552,15 @@ bool ReorderProgramForSparseCholesky(
         parameter_blocks,
         parameter_block_ordering,
         ordering.data());
-  } else if (sparse_linear_algebra_library_type == ACCELERATE_SPARSE) {
+  } else if (sparse_linear_algebra_library_type == ACCELERATE_SPARSE ||
+             sparse_linear_algebra_library_type == MKL_QR_SPARSE) {
     // Accelerate does not provide a function to perform reordering without
     // performing a full symbolic factorisation.  As such, we have nothing
     // to gain from trying to reorder the problem here, as it will happen
     // in AppleAccelerateCholesky::Factorize() (once) and reordering here
     // would involve performing two symbolic factorisations instead of one
     // which would have a negative overall impact on performance.
+    // Performance of MKL QR Sparse solver is the same
     return true;
 
   } else if (sparse_linear_algebra_library_type == EIGEN_SPARSE) {
